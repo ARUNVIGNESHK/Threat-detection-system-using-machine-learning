@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-3 text-center">Login</h3>
+        
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+          <div class="mb-3">
+            <label for="username">Username</label>
+            <input id="username" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" class="form-control" required>
+          </div>
+          <button class="btn btn-success">Login</button>
+        </form>
+        <div class="mt-2 text-center">
+          <a href="{{ url_for('register') }}">Don't have an account? Please register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

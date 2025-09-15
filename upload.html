@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <h3 class="mb-3">📂 Upload File for Malware/Trojan Detection</h3>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <input type="file" name="file" class="form-control" accept=".exe,.apk,.pdf,.txt,.csv" required>
+      </div>
+      <button type="submit" class="btn btn-success">Detect</button>
+    </form>
+  </div>
+
+  {% if tables %}
+  <div class="card mt-4 p-3 shadow-sm">
+    <h4>🔍 Analysis Result:</h4>
+    {% for table in tables %}
+      {{ table|safe }}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

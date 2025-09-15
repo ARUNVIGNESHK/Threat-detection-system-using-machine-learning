@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-3 text-center">Register</h3>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+          <div class="mb-3">
+            <label for="username">Username</label>
+            <input id="username" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" class="form-control" required>
+            <!-- Strength meter -->
+            <div id="strength-message" class="mt-1"></div>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password">Confirm Password</label>
+            <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
+          </div>
+          <button class="btn btn-success">Register</button>
+        </form>
+        <div class="mt-2 text-center">
+          <a href="{{ url_for('login') }}">Back to Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Password strength checker -->
+<script>
+  const passwordInput = document.getElementById("password");
+  const strengthMessage = document.getElementById("strength-message");
+
+  passwordInput.addEventListener("input", function () {
+    const val = passwordInput.value;
+    let strength = "Weak";
+    let color = "red";
+
+    if (val.length >= 8 &&
+        /[A-Z]/.test(val) &&
+        /[a-z]/.test(val) &&
+        /[0-9]/.test(val) &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(val)) {
+      strength = "Strong";
+      color = "green";
+    } else if (val.length >= 6) {
+      strength = "Medium";
+      color = "orange";
+    }
+
+    strengthMessage.textContent = "Password Strength: " + strength;
+    strengthMessage.style.color = color;
+    strengthMessage.style.fontWeight = "bold";
+  });
+</script>
+{% endblock %}

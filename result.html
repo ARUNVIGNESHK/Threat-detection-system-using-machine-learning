@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Detection Result</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+</head>
+<body class="p-4 bg-light">
+
+  <div class="container">
+    <h1 class="mb-4 text-center">🔍 Threat Detection Result for <span class="text-primary">{{ filename }}</span></h1>
+
+    <!-- Malware Section -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-danger text-white">
+        Malware Detection
+      </div>
+      <div class="card-body">
+        {% if malware_predictions %}
+          <p><strong>Predictions:</strong> {{ malware_predictions }}</p>
+        {% endif %}
+        {% if malware_summary %}
+          <p><strong>Summary:</strong> {{ malware_summary }}</p>
+        {% endif %}
+        {% if malware_preview %}
+          <h5>Feature Preview</h5>
+          {{ malware_preview|safe }}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Attack Section -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-info text-white">
+        Attack Detection
+      </div>
+      <div class="card-body">
+        {% if attack_predictions %}
+          <p><strong>Predictions:</strong> {{ attack_predictions }}</p>
+        {% endif %}
+        {% if attack_summary %}
+          <p><strong>Summary:</strong> {{ attack_summary }}</p>
+        {% endif %}
+        {% if attack_rule_summary %}
+          <p><strong>Rule-based Detection:</strong> {{ attack_rule_summary }}</p>
+        {% endif %}
+        {% if attack_preview %}
+          <h5>Feature Preview</h5>
+          {{ attack_preview|safe }}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Trojan Section -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-warning">
+        Trojan Detection
+      </div>
+      <div class="card-body">
+        {% if trojan_predictions %}
+          <p><strong>Predictions:</strong> {{ trojan_predictions }}</p>
+        {% endif %}
+        {% if trojan_summary %}
+          <p><strong>Summary:</strong> {{ trojan_summary }}</p>
+        {% endif %}
+        {% if trojan_preview %}
+          <h5>Feature Preview</h5>
+          {{ trojan_preview|safe }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">⬅ Back to Dashboard</a>
+    </div>
+  </div>
+
+</body>
+</html>

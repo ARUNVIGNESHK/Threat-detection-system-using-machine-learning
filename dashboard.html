@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- User & Date-Time Info -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Welcome, {{ session.get('username', 'Guest') }}</h4>
+    <small class="text-muted">🕒 <span id="live-clock"></span></small>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit', second:'2-digit' };
+      document.getElementById('live-clock').textContent = now.toLocaleString(undefined, options);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+  <hr>
+
+  <!-- Malware Section -->
+  <h5 class="mt-3">🦠 Malware Detection</h5>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-2">
+      <input type="file" name="malware_file" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">Upload & Detect Malware</button>
+  </form>
+  {% if results.Malware %}
+    {% if results.Malware.preview %}
+      <h6 class="mt-3">Extracted File Features:</h6>
+      <div class="table-responsive">{{ results.Malware.preview|safe }}</div>
+    {% endif %}
+    {% if results.Malware.preds %}
+      <h6>Predictions:</h6>
+      <ul>
+        {% for pred in results.Malware.preds %}
+          <li class="{% if '✅' in pred %}text-success{% else %}text-danger{% endif %}">{{ pred }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if results.Malware.summary %}
+      <h6>Summary:</h6>
+      <ul>
+        {% for key, value in results.Malware.summary.items() %}
+          <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+  <hr>
+
+  <!-- Attack Section -->
+  <h5 class="mt-3">⚔️ Attack Detection</h5>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-2">
+      <input type="file" name="attack_file" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-sm btn-warning">Upload & Detect Attack</button>
+  </form>
+  {% if results.Attack %}
+    {% if results.Attack.preview %}
+      <h6 class="mt-3">Extracted File/Traffic Features:</h6>
+      <div class="table-responsive">{{ results.Attack.preview|safe }}</div>
+    {% endif %}
+    {% if results.Attack.preds %}
+      <h6>Predictions:</h6>
+      <ul>
+        {% for pred in results.Attack.preds %}
+          <li class="{% if '✅' in pred %}text-success{% else %}text-danger{% endif %}">{{ pred }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if results.Attack.summary %}
+      <h6>Summary:</h6>
+      <ul>
+        {% for key, value in results.Attack.summary.items() %}
+          <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if results.Attack.rules %}
+      <h6>Rule-based Summary:</h6>
+      <ul>
+        {% for key, value in results.Attack.rules.items() %}
+          <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+  <hr>
+
+  <!-- Trojan Section -->
+  <h5 class="mt-3">🐴 Trojan Detection</h5>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-2">
+      <input type="file" name="trojan_file" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-sm btn-danger">Upload & Detect Trojan</button>
+  </form>
+  {% if results.Trojan %}
+    {% if results.Trojan.preview %}
+      <h6 class="mt-3">Extracted File Features:</h6>
+      <div class="table-responsive">{{ results.Trojan.preview|safe }}</div>
+    {% endif %}
+    {% if results.Trojan.preds %}
+      <h6>Predictions:</h6>
+      <ul>
+        {% for pred in results.Trojan.preds %}
+          <li class="{% if '✅' in pred %}text-success{% else %}text-danger{% endif %}">{{ pred }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if results.Trojan.summary %}
+      <h6>Summary:</h6>
+      <ul>
+        {% for key, value in results.Trojan.summary.items() %}
+          <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+</div>
+{% endblock %}
